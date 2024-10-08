@@ -35,7 +35,6 @@ class Die(object):
 
 def rollDice(rolls, sides):
     '''A function that rolls dice'''
-    #initializes the Die class
     d1 = Die(sides)
     d2 = Die(sides)
     for i in range(0, rolls):
