@@ -34,6 +34,9 @@ class Book(object):
     def __repr__(self):
         return f'Book({self.name},{self.author},{self.pages},{self.year})'
     
+    def __add__(self, other):
+        return Book()
+    
 
 class Library(Book):
     'Library collection of book objects'
@@ -86,25 +89,51 @@ class Library(Book):
             if letter in items.getName():
                 result.append(repr(items))
         return result
+    
+#Problem 3
+
+    def __len__(self):
+        'len'
+        return len(self.library)
+    
+    def __iter__(self):
+        'iterator'
+        return iter(self.library)
+    
+    def __getitem__(self, index):
+        'indexer'
+        assert type(index) == int, 'index must be an int'
+        return self.library[index]
+    
+#problem 4
 
     def writeBooksToFile(self):
         'write books to file'
-        outfile = open({self.filename}, 'w')
-        for book in self.library:
-            outfile.write(str(book))
-        outfile.close()
+        try:
+            outfile = open(self.filename, 'w')
+            for book in self.library:
+                outfile.write(f'{book}\n')
+            outfile.close()
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     def loadBooks(self):
         'load books from file'
-        self.library=[]
-        infile = open({filename}, 'r')
-        data_lines = infile.readlines()
-        for line in data_lines:
-            engine_data = line.strip().split(',')
-            e = Engine(engine_data[0],int(engine_data[1]),engine_data[2].strip())
-            engines.append(e)
-        return engines
+        try:
+            infile = open(self.filename, 'r')
+            self.library.clear()
+            lines = infile.readlines()
+            for line in lines:
+                book_data = line.strip().split(':')
+                self.library.append(Book(book_data[0],book_data[1],int(book_data[2]),int(book_data[3])))
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+
 
         
-
 
