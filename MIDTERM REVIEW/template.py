@@ -27,6 +27,7 @@ class Magic8Ball(object):
             answers.append('Outlook not so good')
             answers.append('Very doubtful')
             self.__answers = answers
+            self.shake()
 
 
     def shake(self):
@@ -39,8 +40,11 @@ class Magic8Ball(object):
         'get the current answer'
         return self.__current
 
-    def numAnswers(self):
-        'get the number of answers in the ball'
+#    def numAnswers(self):
+#        'get the number of answers in the ball'
+#        return len(self.__answers)
+
+    def __len__(self):
         return len(self.__answers)
 
     def __iter__(self):
@@ -75,8 +79,87 @@ class Cookie(object):
         return self.__cookie
 
     def __repr__(self):
-        'pythin representation of cookie'
+        'python representation of cookie'
         return "Cookie('{}')".format(self.__cookie)
 
 class CookieJar(object):
-    pass
+    'the CookieJar class'
+    def __init__(self):
+        'Constructor for the class'
+        self.jar = []
+        self.__filename = 'jar.txt'
+
+
+    def addCookie(self, cookie = Cookie()):
+        'Adds cookie to jar'
+        assert isinstance(cookie, Cookie), 'Can only put cookies in the cookie jar'
+        self.jar.append(cookie)
+
+    def getCount(self):
+        'returns the length of self.jar'
+        return len(self.jar)
+    
+    def getCookies(self):
+        'returns self.jar'
+        return self.jar
+    
+    def getCookieCount(self, flavor):
+        'returns the count of a type of cookie'
+        assert type(flavor) == str, 'must enter a string'
+        count = 0
+        for cookies in self.jar:
+            if cookies.getCookieType() == flavor:
+                count += 1
+            else:
+                count += 0
+        return count
+    
+    def getAllCookieCount(self):
+        'create a dictionary for each unique cookie, if exits add +1 to count'
+        cookieCount = dict()
+        for cookie in self.jar:
+            if cookie.getCookieType() in cookieCount:
+                cookieCount[cookie.getCookieType()] = cookieCount[cookie.getCookieType()] +1
+            else:
+                cookieCount[cookie.getCookieType()] = 1
+        return cookieCount
+            
+
+    def __iter__(self):
+        'iterator'
+        return iter(self.jar)
+
+    def __contains__(self, flavor):
+        'Custom contains operator'
+        contains = False
+        for cookies in self.jar:
+            if cookies.getCookieType() == flavor:
+                contains = True
+                return contains
+                break
+            else:
+                return contains
+    
+    def saveCookies(self):
+        try:
+            outfile = open(self.__filename, 'w')
+            for cookie in self.jar:
+                outfile.write(f"{cookie}\n")
+            outfile.close()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def loadCookies(self):
+        try:
+            infile = open(self.__filename, 'r')
+            lines = infile.readlines()
+            for line in lines:
+                self.jar.append(Cookie(line.strip()))
+            infile.close()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
