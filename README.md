@@ -26,9 +26,7 @@ All primary files related to CSC242, including syllabus, lecture notes, and read
 
 This section contains example code and demonstrations covered in lectures and labs:
 
-- **Basic Examples** - [`examples/basic/`](./examples/basic/)
-- **Advanced Examples** - [`examples/advanced/`](./examples/advanced/)
-- **Project Demos** - [`examples/project-demos/`](./examples/project-demos/)
+- **Basic Examples** - [`examples/basic/`](./examples/)
 
 Each example includes comments and explanations to help clarify the key concepts.
 
